@@ -23,16 +23,14 @@ LIBRARY_NAME=govanza
 OUTPUT_DIR=bin
 
 # Binary output file
-BINARY_OUTPUT=$(OUTPUT_DIR)/$(LIBRARY_NAME).a
+BINARY_OUTPUT=$(OUTPUT_DIR)/$(LIBRARY_NAME)
 
 # Version
 VERSION = $(shell git describe --abbrev=0 --tags | sed 's/[v]//g')
 
-all: test build
-
 build:
 	@echo "Building $(LIBRARY_NAME) library..."
-	$(GOBUILD) -o $(BINARY_OUTPUT) $(wildcard *.go)
+	$(GOBUILD) -o $(BINARY_OUTPUT) $(LIBRARY_NAME).go
 
 test:
 	@echo "Running tests..."
@@ -40,6 +38,7 @@ test:
 
 .PHONY: fmt
 fmt:
+	@echo "Running gofmt..."
 	$(GOFMT) ./...
 
 fix:
@@ -56,14 +55,15 @@ deps:
 	$(GOCMD) mod download
 
 tidy:
+	@echo "Tidying up..."
 	$(GOCMD) mod tidy
-	$(GOCMD) mod vendor
 
 install-golangci-lint:
 	@echo "Installing golangci-lint..."
 	$(GOINSTALL) github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 
 lint: install-golangci-lint
+	@echo "Running golangci-lint..."
 	$(GOLANGCILINTRUN) ./...
 
 install-gosec:

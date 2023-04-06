@@ -301,15 +301,15 @@ func (t StopLossTriggerType) String() string {
 type StopLossPriceType int
 
 const (
-	MONETARY StopLossPriceType = iota
-	PERCENTAGE
+	Monetary StopLossPriceType = iota
+	Percentage
 )
 
 func (t StopLossPriceType) String() string {
 	switch t {
-	case MONETARY:
+	case Monetary:
 		return "MONETARY"
-	case PERCENTAGE:
+	case Percentage:
 		return "PERCENTAGE"
 	}
 	return ""
