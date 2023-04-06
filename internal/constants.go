@@ -3,30 +3,30 @@ package internal
 type TransactionType int
 
 const (
-	TRANSACTION_TYPE_OPTIONS TransactionType = iota
-	TRANSACTION_TYPE_FOREX
-	TRANSACTION_TYPE_DEPOSIT_WITHDRAW
-	TRANSACTION_TYPE_BUY_SELL
-	TRANSACTION_TYPE_DIVIDEND
-	TRANSACTION_TYPE_INTEREST
-	TRANSACTION_TYPE_FOREIGN_TAX
+	TransactionTypeOptions TransactionType = iota
+	TransactionTypeForex
+	TransactionTypeDepositWithdraw
+	TransactionTypeBuySell
+	TransactionTypeDividend
+	TransactionTypeInterest
+	TransactionTypeForeignTax
 )
 
 func (t TransactionType) String() string {
 	switch t {
-	case TRANSACTION_TYPE_OPTIONS:
+	case TransactionTypeOptions:
 		return "options"
-	case TRANSACTION_TYPE_FOREX:
+	case TransactionTypeForex:
 		return "forex"
-	case TRANSACTION_TYPE_DEPOSIT_WITHDRAW:
+	case TransactionTypeDepositWithdraw:
 		return "deposit-withdraw"
-	case TRANSACTION_TYPE_BUY_SELL:
+	case TransactionTypeBuySell:
 		return "buy-sell"
-	case TRANSACTION_TYPE_DIVIDEND:
+	case TransactionTypeDividend:
 		return "dividend"
-	case TRANSACTION_TYPE_INTEREST:
+	case TransactionTypeInterest:
 		return "interest"
-	case TRANSACTION_TYPE_FOREIGN_TAX:
+	case TransactionTypeForeignTax:
 		return "foreign-tax"
 	default:
 		return ""
@@ -36,25 +36,25 @@ func (t TransactionType) String() string {
 type TransactionsDetailsType int
 
 const (
-	TRANSACTIONS_DETAILS_TYPE_DIVIDEND TransactionsDetailsType = iota
-	TRANSACTIONS_DETAILS_TYPE_BUY
-	TRANSACTIONS_DETAILS_TYPE_SELL
-	TRANSACTIONS_DETAILS_TYPE_WITHDRAW
-	TRANSACTIONS_DETAILS_TYPE_DEPOSIT
+	TransactionsDetailsTypeDividend TransactionsDetailsType = iota
+	TransactionsDetailsTypeBuy
+	TransactionsDetailsTypeSell
+	TransactionsDetailsTypeWithdraw
+	TransactionsDetailsTypeDeposit
 	TRANSACTIONS_DETAILS_TYPE_UNKNOWN
 )
 
 func (t TransactionsDetailsType) String() string {
 	switch t {
-	case TRANSACTIONS_DETAILS_TYPE_DIVIDEND:
+	case TransactionsDetailsTypeDividend:
 		return "DIVIDEND"
-	case TRANSACTIONS_DETAILS_TYPE_BUY:
+	case TransactionsDetailsTypeBuy:
 		return "BUY"
-	case TRANSACTIONS_DETAILS_TYPE_SELL:
+	case TransactionsDetailsTypeSell:
 		return "SELL"
-	case TRANSACTIONS_DETAILS_TYPE_WITHDRAW:
+	case TransactionsDetailsTypeWithdraw:
 		return "WITHDRAW"
-	case TRANSACTIONS_DETAILS_TYPE_DEPOSIT:
+	case TransactionsDetailsTypeDeposit:
 		return "DEPOSIT"
 	default:
 		return "UNKNOWN"
@@ -64,33 +64,33 @@ func (t TransactionsDetailsType) String() string {
 type ChannelType int
 
 const (
-	CHANNEL_TYPE_ACCOUNTS ChannelType = iota
-	CHANNEL_TYPE_QUOTES
-	CHANNEL_TYPE_ORDERDEPTHS
-	CHANNEL_TYPE_TRADES
-	CHANNEL_TYPE_BROKERTRADESUMMARY
-	CHANNEL_TYPE_POSITIONS
-	CHANNEL_TYPE_ORDERS
-	CHANNEL_TYPE_DEALS
+	ChannelTypeAccounts ChannelType = iota
+	ChannelTypeQuotes
+	ChannelTypeOrderdepths
+	ChannelTypeTrades
+	ChannelTypeBrokertradesummary
+	ChannelTypePositions
+	ChannelTypeOrders
+	ChannelTypeDeals
 )
 
 func (t ChannelType) String() string {
 	switch t {
-	case CHANNEL_TYPE_ACCOUNTS:
+	case ChannelTypeAccounts:
 		return "accounts"
-	case CHANNEL_TYPE_QUOTES:
+	case ChannelTypeQuotes:
 		return "quotes"
-	case CHANNEL_TYPE_ORDERDEPTHS:
+	case ChannelTypeOrderdepths:
 		return "orderdepths"
-	case CHANNEL_TYPE_TRADES:
+	case ChannelTypeTrades:
 		return "trades"
-	case CHANNEL_TYPE_BROKERTRADESUMMARY:
+	case ChannelTypeBrokertradesummary:
 		return "brokertradesummary"
-	case CHANNEL_TYPE_POSITIONS:
+	case ChannelTypePositions:
 		return "positions"
-	case CHANNEL_TYPE_ORDERS:
+	case ChannelTypeOrders:
 		return "orders"
-	case CHANNEL_TYPE_DEALS:
+	case ChannelTypeDeals:
 		return "deals"
 	default:
 		return ""
@@ -100,39 +100,39 @@ func (t ChannelType) String() string {
 type TimePeriod int
 
 const (
-	TIME_PERIOD_TODAY TimePeriod = iota
-	TIME_PERIOD_ONE_WEEK
-	TIME_PERIOD_ONE_MONTH
-	TIME_PERIOD_THREE_MONTHS
-	TIME_PERIOD_THIS_YEAR
-	TIME_PERIOD_ONE_YEAR
-	TIME_PERIOD_THREE_YEARS
-	TIME_PERIOD_FIVE_YEARS
-	TIME_PERIOD_THREE_YEARS_ROLLING
-	TIME_PERIOD_FIVE_YEARS_ROLLING
+	TimePeriodToday TimePeriod = iota
+	TimePeriodOneWeek
+	TimePeriodOneMonth
+	TimePeriodThreeMonths
+	TimePeriodThisYear
+	TimePeriodOneYear
+	TimePeriodThreeYears
+	TimePeriodFiveYears
+	TimePeriodThreeYearsRolling
+	TimePeriodFiveYearsRolling
 )
 
 func (t TimePeriod) String() string {
 	switch t {
-	case TIME_PERIOD_TODAY:
+	case TimePeriodToday:
 		return "TODAY"
-	case TIME_PERIOD_ONE_WEEK:
+	case TimePeriodOneWeek:
 		return "ONE_WEEK"
-	case TIME_PERIOD_ONE_MONTH:
+	case TimePeriodOneMonth:
 		return "ONE_MONTH"
-	case TIME_PERIOD_THREE_MONTHS:
+	case TimePeriodThreeMonths:
 		return "THREE_MONTHS"
-	case TIME_PERIOD_THIS_YEAR:
+	case TimePeriodThisYear:
 		return "THIS_YEAR"
-	case TIME_PERIOD_ONE_YEAR:
+	case TimePeriodOneYear:
 		return "ONE_YEAR"
-	case TIME_PERIOD_THREE_YEARS:
+	case TimePeriodThreeYears:
 		return "THREE_YEARS"
-	case TIME_PERIOD_FIVE_YEARS:
+	case TimePeriodFiveYears:
 		return "FIVE_YEARS"
-	case TIME_PERIOD_THREE_YEARS_ROLLING:
+	case TimePeriodThreeYearsRolling:
 		return "THREE_YEARS_ROLLING"
-	case TIME_PERIOD_FIVE_YEARS_ROLLING:
+	case TimePeriodFiveYearsRolling:
 		return "FIVE_YEARS_ROLLING"
 	default:
 		return ""
@@ -142,39 +142,39 @@ func (t TimePeriod) String() string {
 type Resolution int
 
 const (
-	RESOLUTION_MINUTE Resolution = iota
-	RESOLUTION_TWO_MINUTES
-	RESOLUTION_FIVE_MINUTES
-	RESOLUTION_TEN_MINUTES
-	RESOLUTION_THIRTY_MINUTES
-	RESOLUTION_HOUR
-	RESOLUTION_DAY
-	RESOLUTION_WEEK
-	RESOLUTION_MONTH
-	RESOLUTION_QUARTER
+	ResolutionMinute Resolution = iota
+	ResolutionTwoMinutes
+	ResolutionFiveMinutes
+	ResolutionTenMinutes
+	ResolutionThirtyMinutes
+	ResolutionHour
+	ResolutionDay
+	ResolutionWeek
+	ResolutionMonth
+	ResolutionQuarter
 )
 
 func (t Resolution) String() string {
 	switch t {
-	case RESOLUTION_MINUTE:
+	case ResolutionMinute:
 		return "MINUTE"
-	case RESOLUTION_TWO_MINUTES:
+	case ResolutionTwoMinutes:
 		return "TWO_MINUTES"
-	case RESOLUTION_FIVE_MINUTES:
+	case ResolutionFiveMinutes:
 		return "FIVE_MINUTES"
-	case RESOLUTION_TEN_MINUTES:
+	case ResolutionTenMinutes:
 		return "TEN_MINUTES"
-	case RESOLUTION_THIRTY_MINUTES:
+	case ResolutionThirtyMinutes:
 		return "THIRTY_MINUTES"
-	case RESOLUTION_HOUR:
+	case ResolutionHour:
 		return "HOUR"
-	case RESOLUTION_DAY:
+	case ResolutionDay:
 		return "DAY"
-	case RESOLUTION_WEEK:
+	case ResolutionWeek:
 		return "WEEK"
-	case RESOLUTION_MONTH:
+	case ResolutionMonth:
 		return "MONTH"
-	case RESOLUTION_QUARTER:
+	case ResolutionQuarter:
 		return "QUARTER"
 	default:
 		return ""
@@ -184,21 +184,21 @@ func (t Resolution) String() string {
 type ListType int
 
 const (
-	LIST_TYPE_HIGHEST_RATED_FUNDS ListType = iota
-	LIST_TYPE_LOWEST_FEE_INDEX_FUNDS
-	LIST_TYPE_BEST_DEVELOPMENT_FUNDS_LAST_THREE_MONTHS
-	LIST_TYPE_MOST_OWNED_FUNDS
+	ListTypeHighestRatedFunds ListType = iota
+	ListTypeLowestFeeIndexFunds
+	ListTypeBestDevelopmentFundsLastThreeMonths
+	ListTypeMostOwnedFunds
 )
 
 func (t ListType) String() string {
 	switch t {
-	case LIST_TYPE_HIGHEST_RATED_FUNDS:
+	case ListTypeHighestRatedFunds:
 		return "HIGHEST_RATED_FUNDS"
-	case LIST_TYPE_LOWEST_FEE_INDEX_FUNDS:
+	case ListTypeLowestFeeIndexFunds:
 		return "LOWEST_FEE_INDEX_FUNDS"
-	case LIST_TYPE_BEST_DEVELOPMENT_FUNDS_LAST_THREE_MONTHS:
+	case ListTypeBestDevelopmentFundsLastThreeMonths:
 		return "BEST_DEVELOPMENT_FUNDS_LAST_THREE_MONTHS"
-	case LIST_TYPE_MOST_OWNED_FUNDS:
+	case ListTypeMostOwnedFunds:
 		return "MOST_OWNED_FUNDS"
 	default:
 		return ""
@@ -208,51 +208,51 @@ func (t ListType) String() string {
 type InstrumentType int
 
 const (
-	STOCK InstrumentType = iota
-	FUND
-	BOND
-	OPTION
-	FUTURE_FORWARD
-	CERTIFICATE
-	WARRANT
-	EXCHANGE_TRADED_FUND
-	INDEX
-	PREMIUM_BOND
-	SUBSCRIPTION_OPTION
-	EQUITY_LINKED_BOND
-	CONVERTIBLE
-	ANY
+	Stock InstrumentType = iota
+	Fund
+	Bond
+	Option
+	FutureForward
+	Certificate
+	Warrant
+	ExchangeTradedFund
+	Index
+	PremiumBond
+	SubscriptionOption
+	EquityLinkedBond
+	Convertible
+	Any
 )
 
 func (t InstrumentType) String() string {
 	switch t {
-	case STOCK:
+	case Stock:
 		return "stock"
-	case FUND:
+	case Fund:
 		return "fund"
-	case BOND:
+	case Bond:
 		return "bond"
-	case OPTION:
+	case Option:
 		return "option"
-	case FUTURE_FORWARD:
+	case FutureForward:
 		return "future_forward"
-	case CERTIFICATE:
+	case Certificate:
 		return "certificate"
-	case WARRANT:
+	case Warrant:
 		return "warrant"
-	case EXCHANGE_TRADED_FUND:
+	case ExchangeTradedFund:
 		return "exchange_traded_fund"
-	case INDEX:
+	case Index:
 		return "index"
-	case PREMIUM_BOND:
+	case PremiumBond:
 		return "premium_bond"
-	case SUBSCRIPTION_OPTION:
+	case SubscriptionOption:
 		return "subscription_option"
-	case EQUITY_LINKED_BOND:
+	case EquityLinkedBond:
 		return "equity_linked_bond"
-	case CONVERTIBLE:
+	case Convertible:
 		return "convertible"
-	case ANY:
+	case Any:
 		return ""
 	}
 	return ""
@@ -278,21 +278,21 @@ func (t OrderType) String() string {
 type StopLossTriggerType int
 
 const (
-	FOLLOW_DOWNWARDS StopLossTriggerType = iota
-	FOLLOW_UPWARDS
-	LESS_OR_EQUAL
-	MORE_OR_EQUAL
+	FollowDownwards StopLossTriggerType = iota
+	FollowUpwards
+	LessOrEqual
+	MoreOrEqual
 )
 
 func (t StopLossTriggerType) String() string {
 	switch t {
-	case FOLLOW_DOWNWARDS:
+	case FollowDownwards:
 		return "FOLLOW_DOWNWARDS"
-	case FOLLOW_UPWARDS:
+	case FollowUpwards:
 		return "FOLLOW_UPWARDS"
-	case LESS_OR_EQUAL:
+	case LessOrEqual:
 		return "LESS_OR_EQUAL"
-	case MORE_OR_EQUAL:
+	case MoreOrEqual:
 		return "MORE_OR_EQUAL"
 	}
 	return ""
@@ -338,124 +338,120 @@ func (t HttpMethod) String() string {
 	return ""
 }
 
-package main
-
-import "fmt"
-
 type Route int
 
 const (
-	ACCOUNT_OVERVIEW_PATH Route = iota
-	ACCOUNTS_POSITIONS_PATH
-	AUTHENTICATION_PATH
-	CHARTDATA_PATH
-	CURRENT_OFFERS_PATH
-	DEALS_AND_ORDERS_PATH
-	FUND_PATH
-	INSIGHTS_PATH
-	INSPIRATION_LIST_PATH
-	INSTRUMENT_PATH
-	INSTRUMENT_DETAILS_PATH
-	INSTRUMENT_SEARCH_PATH
-	MONTHLY_SAVINGS_CREATE_PATH
-	MONTHLY_SAVINGS_PATH
-	MONTHLY_SAVINGS_PAUSE_PATH
-	MONTHLY_SAVINGS_REMOVE_PATH
-	MONTHLY_SAVINGS_RESUME_PATH
-	NOTE_PATH
-	ORDER_DELETE_PATH
-	ORDER_GET_PATH
-	ORDER_PLACE_PATH
-	ORDER_PLACE_STOP_LOSS_PATH
-	ORDER_PLACE_PATH_BUY_FUND
-	ORDER_PLACE_PATH_SELL_FUND
-	ORDER_EDIT_PATH
-	ORDERBOOK_LIST_PATH
-	ORDERBOOK_PATH
-	OVERVIEW_PATH
-	POSITIONS_PATH
-	PRICE_ALERT_PATH
-	STOP_LOSS_PATH
-	TOTP_PATH
-	TRANSACTIONS_PATH
-	TRANSACTIONS_DETAILS_PATH
-	WATCHLISTS_ADD_DELETE_PATH
-	WATCHLISTS_PATH
+	AccountOverviewPath Route = iota
+	AccountsPositionsPath
+	AuthenticationPath
+	ChartdataPath
+	CurrentOffersPath
+	DealsAndOrdersPath
+	FundPath
+	InsightsPath
+	InspirationListPath
+	InstrumentPath
+	InstrumentDetailsPath
+	InstrumentSearchPath
+	MonthlySavingsCreatePath
+	MonthlySavingsPath
+	MonthlySavingsPausePath
+	MonthlySavingsRemovePath
+	MonthlySavingsResumePath
+	NotePath
+	OrderDeletePath
+	OrderGetPath
+	OrderPlacePath
+	OrderPlaceStopLossPath
+	OrderPlacePathBuyFund
+	OrderPlacePathSellFund
+	OrderEditPath
+	OrderbookListPath
+	OrderbookPath
+	OverviewPath
+	PositionsPath
+	PriceAlertPath
+	StopLossPath
+	TotpPath
+	TransactionsPath
+	TransactionsDetailsPath
+	WatchlistsAddDeletePath
+	WatchlistsPath
 )
 
 func (r Route) String() string {
 	switch r {
-	case ACCOUNT_OVERVIEW_PATH:
+	case AccountOverviewPath:
 		return "/_mobile/account/{}/overview"
-	case ACCOUNTS_POSITIONS_PATH:
+	case AccountsPositionsPath:
 		return "/_api/position-data/positions"
-	case AUTHENTICATION_PATH:
+	case AuthenticationPath:
 		return "/_api/authentication/sessions/usercredentials"
-	case CHARTDATA_PATH:
+	case ChartdataPath:
 		return "/_api/price-chart/stock/{}"
-	case CURRENT_OFFERS_PATH:
+	case CurrentOffersPath:
 		return "/_api/customer-offer/currentoffers/"
-	case DEALS_AND_ORDERS_PATH:
+	case DealsAndOrdersPath:
 		return "/_mobile/account/dealsandorders"
-	case FUND_PATH:
+	case FundPath:
 		return "/_api/fund-guide/guide/{}"
-	case INSIGHTS_PATH:
+	case InsightsPath:
 		return "/_api/insights-development/?timePeriod={}&accountIds={}"
-	case INSPIRATION_LIST_PATH:
+	case InspirationListPath:
 		return "/_mobile/marketing/inspirationlist/{}"
-	case INSTRUMENT_PATH:
+	case InstrumentPath:
 		return "/_api/market-guide/{}/{}"
-	case INSTRUMENT_DETAILS_PATH:
+	case InstrumentDetailsPath:
 		return "/_api/market-guide/{}/{}/details"
-	case INSTRUMENT_SEARCH_PATH:
+	case InstrumentSearchPath:
 		return "/_mobile/market/search/{}?query={}&limit={}"
-	case MONTHLY_SAVINGS_CREATE_PATH:
+	case MonthlySavingsCreatePath:
 		return "/_api/transfer/monthly-savings/{}"
-	case MONTHLY_SAVINGS_PATH:
+	case MonthlySavingsPath:
 		return "/_mobile/transfer/monthly-savings/{}"
-	case MONTHLY_SAVINGS_PAUSE_PATH:
+	case MonthlySavingsPausePath:
 		return "/_api/transfer/monthly-savings/{}/{}/pause"
-	case MONTHLY_SAVINGS_REMOVE_PATH:
+	case MonthlySavingsRemovePath:
 		return "/_api/transfer/monthly-savings/{}/{}/"
-	case MONTHLY_SAVINGS_RESUME_PATH:
+	case MonthlySavingsResumePath:
 		return "/_api/transfer/monthly-savings/{}/{}/resume"
-	case NOTE_PATH:
+	case NotePath:
 		return "/_api/contract-notes/documents/{}/{}/note.pdf"
-	case ORDER_DELETE_PATH:
+	case OrderDeletePath:
 		return "/_api/order?accountId={}&orderId={}"
-	case ORDER_GET_PATH:
+	case OrderGetPath:
 		return "/_mobile/order/{}?accountId={}&orderId={}"
-	case ORDER_PLACE_PATH:
+	case OrderPlacePath:
 		return "/_api/trading-critical/rest/order/new"
-	case ORDER_PLACE_STOP_LOSS_PATH:
+	case OrderPlaceStopLossPath:
 		return "/_api/trading-critical/rest/stoploss/new"
-	case ORDER_PLACE_PATH_BUY_FUND:
+	case OrderPlacePathBuyFund:
 		return "/_api/fund-guide/fund-order-page/buy"
-	case ORDER_PLACE_PATH_SELL_FUND:
+	case OrderPlacePathSellFund:
 		return "/_api/fund-guide/fund-order-page/sell"
-	case ORDER_EDIT_PATH:
-		return '/_api/order/{}/{}'
-	case ORDERBOOK_LIST_PATH:
+	case OrderEditPath:
+		return "/_api/order/{}/{}"
+	case OrderbookListPath:
 		return "/_mobile/market/orderbooklist/{}"
-	case ORDERBOOK_PATH:
+	case OrderbookPath:
 		return "/_mobile/order/{}?orderbookId={}"
-	case OVERVIEW_PATH:
+	case OverviewPath:
 		return "/_mobile/account/overview"
-	case POSITIONS_PATH:
+	case PositionsPath:
 		return "/_mobile/account/positions"
-	case PRICE_ALERT_PATH:
+	case PriceAlertPath:
 		return "/_cqbe/marketing/service/alert/{}"
-	case STOP_LOSS_PATH:
+	case StopLossPath:
 		return "/_api/trading-critical/rest/stoploss"
-	case TOTP_PATH:
+	case TotpPath:
 		return "/_api/authentication/sessions/totp"
-	case TRANSACTIONS_PATH:
+	case TransactionsPath:
 		return "/_mobile/account/transactions/{}"
-	case TRANSACTIONS_DETAILS_PATH:
+	case TransactionsDetailsPath:
 		return "/_api/transactions"
-	case WATCHLISTS_ADD_DELETE_PATH:
+	case WatchlistsAddDeletePath:
 		return "/_api/usercontent/watchlist/{}/orderbooks/{}"
-	case WATCHLISTS_PATH:
+	case WatchlistsPath:
 		return "/_mobile/usercontent/watchlist"
 	default:
 		return ""
