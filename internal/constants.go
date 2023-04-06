@@ -1,4 +1,4 @@
-package constants
+package internal
 
 type TransactionType int
 
