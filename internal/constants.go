@@ -3,30 +3,30 @@ package internal
 type TransactionType int
 
 const (
-	TransactionTypeOptions TransactionType = iota
-	TransactionTypeForex
-	TransactionTypeDepositWithdraw
-	TransactionTypeBuySell
-	TransactionTypeDividend
-	TransactionTypeInterest
-	TransactionTypeForeignTax
+	Options TransactionType = iota
+	Forex
+	DepositWithdraw
+	BuySell
+	DividendTransaction
+	Interest
+	ForeignTax
 )
 
 func (t TransactionType) String() string {
 	switch t {
-	case TransactionTypeOptions:
+	case Options:
 		return "options"
-	case TransactionTypeForex:
+	case Forex:
 		return "forex"
-	case TransactionTypeDepositWithdraw:
+	case DepositWithdraw:
 		return "deposit-withdraw"
-	case TransactionTypeBuySell:
+	case BuySell:
 		return "buy-sell"
-	case TransactionTypeDividend:
+	case DividendTransaction:
 		return "dividend"
-	case TransactionTypeInterest:
+	case Interest:
 		return "interest"
-	case TransactionTypeForeignTax:
+	case ForeignTax:
 		return "foreign-tax"
 	default:
 		return ""
@@ -36,25 +36,24 @@ func (t TransactionType) String() string {
 type TransactionsDetailsType int
 
 const (
-	TransactionsDetailsTypeDividend TransactionsDetailsType = iota
-	TransactionsDetailsTypeBuy
-	TransactionsDetailsTypeSell
-	TransactionsDetailsTypeWithdraw
-	TransactionsDetailsTypeDeposit
-	TRANSACTIONS_DETAILS_TYPE_UNKNOWN
+	Dividend TransactionsDetailsType = iota
+	Buy
+	Sell
+	Withdraw
+	Deposit
 )
 
 func (t TransactionsDetailsType) String() string {
 	switch t {
-	case TransactionsDetailsTypeDividend:
+	case Dividend:
 		return "DIVIDEND"
-	case TransactionsDetailsTypeBuy:
+	case Buy:
 		return "BUY"
-	case TransactionsDetailsTypeSell:
+	case Sell:
 		return "SELL"
-	case TransactionsDetailsTypeWithdraw:
+	case Withdraw:
 		return "WITHDRAW"
-	case TransactionsDetailsTypeDeposit:
+	case Deposit:
 		return "DEPOSIT"
 	default:
 		return "UNKNOWN"
@@ -64,33 +63,33 @@ func (t TransactionsDetailsType) String() string {
 type ChannelType int
 
 const (
-	ChannelTypeAccounts ChannelType = iota
-	ChannelTypeQuotes
-	ChannelTypeOrderdepths
-	ChannelTypeTrades
-	ChannelTypeBrokertradesummary
-	ChannelTypePositions
-	ChannelTypeOrders
-	ChannelTypeDeals
+	Accounts ChannelType = iota
+	Quotes
+	OrderDepths
+	Trades
+	BrokerTradeSummary
+	Positions
+	Orders
+	TypeDeals
 )
 
 func (t ChannelType) String() string {
 	switch t {
-	case ChannelTypeAccounts:
+	case Accounts:
 		return "accounts"
-	case ChannelTypeQuotes:
+	case Quotes:
 		return "quotes"
-	case ChannelTypeOrderdepths:
+	case OrderDepths:
 		return "orderdepths"
-	case ChannelTypeTrades:
+	case Trades:
 		return "trades"
-	case ChannelTypeBrokertradesummary:
+	case BrokerTradeSummary:
 		return "brokertradesummary"
-	case ChannelTypePositions:
+	case Positions:
 		return "positions"
-	case ChannelTypeOrders:
+	case Orders:
 		return "orders"
-	case ChannelTypeDeals:
+	case TypeDeals:
 		return "deals"
 	default:
 		return ""
@@ -100,39 +99,39 @@ func (t ChannelType) String() string {
 type TimePeriod int
 
 const (
-	TimePeriodToday TimePeriod = iota
-	TimePeriodOneWeek
-	TimePeriodOneMonth
-	TimePeriodThreeMonths
-	TimePeriodThisYear
-	TimePeriodOneYear
-	TimePeriodThreeYears
-	TimePeriodFiveYears
-	TimePeriodThreeYearsRolling
-	TimePeriodFiveYearsRolling
+	Today TimePeriod = iota
+	OneWeek
+	OneMonth
+	ThreeMonths
+	ThisYear
+	OneYear
+	ThreeYears
+	FiveYears
+	ThreeYearsRolling
+	FiveYearsRolling
 )
 
 func (t TimePeriod) String() string {
 	switch t {
-	case TimePeriodToday:
+	case Today:
 		return "TODAY"
-	case TimePeriodOneWeek:
+	case OneWeek:
 		return "ONE_WEEK"
-	case TimePeriodOneMonth:
+	case OneMonth:
 		return "ONE_MONTH"
-	case TimePeriodThreeMonths:
+	case ThreeMonths:
 		return "THREE_MONTHS"
-	case TimePeriodThisYear:
+	case ThisYear:
 		return "THIS_YEAR"
-	case TimePeriodOneYear:
+	case OneYear:
 		return "ONE_YEAR"
-	case TimePeriodThreeYears:
+	case ThreeYears:
 		return "THREE_YEARS"
-	case TimePeriodFiveYears:
+	case FiveYears:
 		return "FIVE_YEARS"
-	case TimePeriodThreeYearsRolling:
+	case ThreeYearsRolling:
 		return "THREE_YEARS_ROLLING"
-	case TimePeriodFiveYearsRolling:
+	case FiveYearsRolling:
 		return "FIVE_YEARS_ROLLING"
 	default:
 		return ""
@@ -142,39 +141,39 @@ func (t TimePeriod) String() string {
 type Resolution int
 
 const (
-	ResolutionMinute Resolution = iota
-	ResolutionTwoMinutes
-	ResolutionFiveMinutes
-	ResolutionTenMinutes
-	ResolutionThirtyMinutes
-	ResolutionHour
-	ResolutionDay
-	ResolutionWeek
-	ResolutionMonth
-	ResolutionQuarter
+	Minute Resolution = iota
+	TwoMinutes
+	FiveMinutes
+	TenMinutes
+	ThirtyMinutes
+	Hour
+	Day
+	Week
+	Month
+	Quarter
 )
 
 func (t Resolution) String() string {
 	switch t {
-	case ResolutionMinute:
+	case Minute:
 		return "MINUTE"
-	case ResolutionTwoMinutes:
+	case TwoMinutes:
 		return "TWO_MINUTES"
-	case ResolutionFiveMinutes:
+	case FiveMinutes:
 		return "FIVE_MINUTES"
-	case ResolutionTenMinutes:
+	case TenMinutes:
 		return "TEN_MINUTES"
-	case ResolutionThirtyMinutes:
+	case ThirtyMinutes:
 		return "THIRTY_MINUTES"
-	case ResolutionHour:
+	case Hour:
 		return "HOUR"
-	case ResolutionDay:
+	case Day:
 		return "DAY"
-	case ResolutionWeek:
+	case Week:
 		return "WEEK"
-	case ResolutionMonth:
+	case Month:
 		return "MONTH"
-	case ResolutionQuarter:
+	case Quarter:
 		return "QUARTER"
 	default:
 		return ""
@@ -184,21 +183,21 @@ func (t Resolution) String() string {
 type ListType int
 
 const (
-	ListTypeHighestRatedFunds ListType = iota
-	ListTypeLowestFeeIndexFunds
-	ListTypeBestDevelopmentFundsLastThreeMonths
-	ListTypeMostOwnedFunds
+	HighestRatedFunds ListType = iota
+	LowestFeeIndexFunds
+	BestDevelopmentFundsLastThreeMonths
+	MostOwnedFunds
 )
 
 func (t ListType) String() string {
 	switch t {
-	case ListTypeHighestRatedFunds:
+	case HighestRatedFunds:
 		return "HIGHEST_RATED_FUNDS"
-	case ListTypeLowestFeeIndexFunds:
+	case LowestFeeIndexFunds:
 		return "LOWEST_FEE_INDEX_FUNDS"
-	case ListTypeBestDevelopmentFundsLastThreeMonths:
+	case BestDevelopmentFundsLastThreeMonths:
 		return "BEST_DEVELOPMENT_FUNDS_LAST_THREE_MONTHS"
-	case ListTypeMostOwnedFunds:
+	case MostOwnedFunds:
 		return "MOST_OWNED_FUNDS"
 	default:
 		return ""
