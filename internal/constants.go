@@ -70,7 +70,7 @@ const (
 	BrokerTradeSummary
 	Positions
 	Orders
-	TypeDeals
+	Deals
 )
 
 func (t ChannelType) String() string {
@@ -89,7 +89,7 @@ func (t ChannelType) String() string {
 		return "positions"
 	case Orders:
 		return "orders"
-	case TypeDeals:
+	case Deals:
 		return "deals"
 	default:
 		return ""
