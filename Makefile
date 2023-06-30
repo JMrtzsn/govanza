@@ -1,32 +1,25 @@
 # Go parameters
-GOCMD=go
-GOBUILD=$(GOCMD) build
-GOCLEAN=$(GOCMD) clean
-GOTEST=$(GOCMD) test
-GOGET=$(GOCMD) get
-GOFMT=$(GOCMD) fmt
-GOFIX=$(GOCMD) fix
-GORUN=$(GOCMD) run
-GOINSTALL=$(GOCMD) install
-GOLANGCILINTCMD=$(GOPATH)/bin/golangci-lint
-GOLANGCILINTRUN=$(GOLANGCILINTCMD) run -v
-GOGENERATE=$(GOCMD) generate
-GOSECCMD=$(GOPATH)/bin/gosec
-GOSECRUN=$(GOSECCMD) --quiet
-GOVULNCHECKCMD=$(GOPATH)/bin/govulncheck
-GOVULNCHECKRUN=$(GOVULNCHECKCMD)
+GO       := go
+GOBUILD  := $(GO) build
+GOCLEAN  := $(GO) clean
+GOTEST   := $(GO) test
+GOGET    := $(GO) get
+GOFMT    := $(GO) fmt
+GOFIX    := $(GO) fix
+GORUN    := $(GO) run
+GOINSTALL:= $(GO) install
 
 # Library name
-LIBRARY_NAME=govanza
+LIBRARY_NAME := govanza
 
 # Output directory
-OUTPUT_DIR=bin
+OUTPUT_DIR := bin
 
 # Binary output file
-BINARY_OUTPUT=$(OUTPUT_DIR)/$(LIBRARY_NAME)
+BINARY_OUTPUT := $(OUTPUT_DIR)/$(LIBRARY_NAME)
 
 # Version
-VERSION = $(shell git describe --abbrev=0 --tags | sed 's/[v]//g')
+VERSION := $(shell git describe --abbrev=0 --tags | sed 's/[v]//g')
 
 build:
 	@echo "Building $(LIBRARY_NAME) library..."
@@ -36,13 +29,12 @@ test:
 	@echo "Running tests..."
 	$(GOTEST) -v ./...
 
-.PHONY: fmt
 fmt:
 	@echo "Running gofmt..."
 	$(GOFMT) ./...
 
 fix:
-	@echo :"Running fix"
+	@echo "Running fix..."
 	$(GOFIX) ./...
 
 clean:
@@ -52,11 +44,11 @@ clean:
 
 deps:
 	@echo "Downloading dependencies..."
-	$(GOCMD) mod download
+	$(GO) mod download
 
 tidy:
 	@echo "Tidying up..."
-	$(GOCMD) mod tidy
+	$(GO) mod tidy
 
 install-golangci-lint:
 	@echo "Installing golangci-lint..."
@@ -64,7 +56,7 @@ install-golangci-lint:
 
 lint: install-golangci-lint
 	@echo "Running golangci-lint..."
-	$(GOLANGCILINTRUN) ./...
+	golangci-lint run -v ./...
 
 install-gosec:
 	@echo "Installing gosec..."
@@ -72,8 +64,7 @@ install-gosec:
 
 sec: install-gosec
 	@echo "Running gosec..."
-	${GOSECRUN} ./...
-
+	gosec ./...
 
 install-govulncheck:
 	@echo "Installing go vulncheck..."
@@ -81,6 +72,6 @@ install-govulncheck:
 
 govulncheck: install-govulncheck
 	@echo "Running go vulncheck..."
-	$(GOVULNCHECKRUN) ./...
+	govulncheck ./...
 
 all: tidy build fmt fix lint test sec govulncheck

@@ -81,7 +81,7 @@ func (s *AvanzaSocket) Connect() error {
 			// TODO: Convert message to struct
 			switch channel {
 			case "/meta/disconnect":
-				err = s.handleDisconnectMessage(msg)
+				err = s.handleDisconnectMessage()
 			case "/meta/handshake":
 				err = s.handleHandshakeMessage(msg)
 			case "/meta/connect":
