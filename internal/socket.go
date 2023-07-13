@@ -16,20 +16,22 @@ const (
 
 // AvanzaSocket represents the Avanza WebSocket client.
 type AvanzaSocket struct {
-	sync.Mutex
-	conn          *websocket.Conn
-	clientID      string
-	messageCount  int
-	connected     bool
-	subscriptions map[string]struct {
+	sync.Mutex                             // Mutex for thread safety
+	ClientID           string              // Initialized in handshake message
+	Conn               *websocket.Conn     // The WebSocket connection
+	Connected          bool                // True if the socket is Connected
+	MessageCount       int                 // Keeps check of the number of messages sent
+	Logger             *log.Logger         // Logger for logging
+	PushSubscriptionID string              // TODO: where does this come from?
+	Subscriptions      map[string]struct { // Map of subscriptions
 		Callback func(string, map[string]interface{})
 		ClientID string
 	}
-	pushSubscriptionID string // TODO: where does this come from?
 }
 
-// NewAvanzaSocket creates a new AvanzaSocket instance.
-func NewAvanzaSocket(pushSubscriptionID, cookies string) (*AvanzaSocket, error) {
+// NewAvanzaSocket creates a new AvanzaSocket instance with the given logger.
+// If logger is nil, the default logger is used.
+func NewAvanzaSocket(pushSubscriptionID, cookies string, reconnectLimit int, logger *log.Logger) (*AvanzaSocket, error) {
 	headers := make(http.Header)
 	headers.Add("Cookie", cookies)
 
@@ -38,16 +40,21 @@ func NewAvanzaSocket(pushSubscriptionID, cookies string) (*AvanzaSocket, error) 
 		return nil, err
 	}
 
+	if logger == nil {
+		logger = log.Default()
+	}
+
 	s := &AvanzaSocket{
-		conn: conn,
-		subscriptions: make(map[string]struct {
+		Conn: conn,
+		Subscriptions: make(map[string]struct {
 			Callback func(string, map[string]interface{})
 			ClientID string
 		}),
-		pushSubscriptionID: pushSubscriptionID,
+		PushSubscriptionID: pushSubscriptionID,
+		Logger:             logger,
 	}
 
-	err = s.sendHandshakeMessage(s.pushSubscriptionID)
+	err = s.sendHandshakeMessage(s.PushSubscriptionID)
 	if err != nil {
 		return nil, err
 	}
@@ -55,30 +62,31 @@ func NewAvanzaSocket(pushSubscriptionID, cookies string) (*AvanzaSocket, error) 
 	return s, nil
 }
 
-// Connect establishes the WebSocket connection and starts listening for messages.
-func (s *AvanzaSocket) Connect() error {
+// Listen establishes the WebSocket connection and starts listening for messages.
+func (s *AvanzaSocket) Listen() error {
 	for {
-		_, message, err := s.conn.ReadMessage()
+		_, message, err := s.Conn.ReadMessage()
 		if err != nil {
-			log.Println("Failed to read message from websocket:", err)
+			s.Logger.Println("Failed to read message from websocket:", err)
 			return err
 		}
 
 		var messages []map[string]interface{}
 		err = json.Unmarshal(message, &messages)
 		if err != nil {
-			log.Println("Failed to unmarshal message:", err)
+			s.Logger.Println("Failed to unmarshal message:", err)
 			continue
 		}
 
 		for _, msg := range messages {
 			channel, ok := msg["channel"].(string)
 			if !ok {
-				log.Println("Invalid message format: missing 'channel' field")
+				s.Logger.Println("Invalid message format: missing 'channel' field")
 				continue
 			}
-			// TODO: log message
-			// TODO: Convert message to struct
+
+			s.Logger.Println("Received message on channel:", channel)
+			s.Logger.Println("Message:", msg)
 			switch channel {
 			case "/meta/disconnect":
 				err = s.handleDisconnectMessage()
@@ -89,11 +97,11 @@ func (s *AvanzaSocket) Connect() error {
 			case "/meta/subscribe":
 				err = s.handleSubscribeMessage(msg)
 			default:
-				s.handleCustomMessage(channel, msg)
+				s.Logger.Println("Unknown channel:", channel)
 			}
 
 			if err != nil {
-				log.Println("Failed to handle message:", err)
+				s.Logger.Println("Failed to handle message:", err)
 			}
 		}
 	}
@@ -101,9 +109,9 @@ func (s *AvanzaSocket) Connect() error {
 
 // Close closes the WebSocket connection.
 func (s *AvanzaSocket) Close() error {
-	if s.conn != nil {
-		err := s.conn.Close()
-		s.conn = nil
+	if s.Conn != nil {
+		err := s.Conn.Close()
+		s.Conn = nil
 		return err
 	}
 	return nil
@@ -116,6 +124,10 @@ func (s *AvanzaSocket) SubscribeToID(channel, id string, callback func(string, m
 
 // SubscribeToIDs subscribes to a channel with multiple IDs.
 func (s *AvanzaSocket) SubscribeToIDs(channel string, ids []string, callback func(string, map[string]interface{})) error {
+	if ids == nil || len(ids) == 0 {
+		return errors.New("no IDs provided")
+	}
+
 	validChannelsForMultipleIDs := []string{
 		"orders",
 		"deals",
@@ -134,21 +146,21 @@ func (s *AvanzaSocket) send(message interface{}) error {
 	s.Lock()
 	defer s.Unlock()
 
-	err := s.conn.WriteJSON([]interface{}{message})
+	err := s.Conn.WriteJSON([]interface{}{message})
 	if err != nil {
 		return err
 	}
 
-	s.messageCount++
+	s.MessageCount++
 	return nil
 }
 
 func (s *AvanzaSocket) sendConnectMessage() error {
 	message := map[string]interface{}{
 		"channel":        "/meta/connect",
-		"clientId":       s.clientID,
+		"clientId":       s.ClientID,
 		"connectionType": "websocket",
-		"id":             s.messageCount,
+		"id":             s.MessageCount,
 	}
 
 	return s.send(message)
@@ -174,11 +186,11 @@ func (s *AvanzaSocket) socketSubscribe(subscriptionString string, callback func(
 	s.Lock()
 	defer s.Unlock()
 
-	if _, ok := s.subscriptions[subscriptionString]; ok {
+	if _, ok := s.Subscriptions[subscriptionString]; ok {
 		return errors.New("subscription already exists")
 	}
 
-	s.subscriptions[subscriptionString] = struct {
+	s.Subscriptions[subscriptionString] = struct {
 		Callback func(string, map[string]interface{})
 		ClientID string
 	}{
@@ -188,7 +200,7 @@ func (s *AvanzaSocket) socketSubscribe(subscriptionString string, callback func(
 
 	message := map[string]interface{}{
 		"channel":      "/meta/subscribe",
-		"clientId":     s.clientID,
+		"clientId":     s.ClientID,
 		"subscription": subscriptionString,
 	}
 
@@ -197,13 +209,13 @@ func (s *AvanzaSocket) socketSubscribe(subscriptionString string, callback func(
 
 func (s *AvanzaSocket) handleDisconnectMessage() error {
 	// TODO: log disconnect message
-	return s.sendHandshakeMessage(s.pushSubscriptionID)
+	return s.sendHandshakeMessage(s.PushSubscriptionID)
 }
 
 func (s *AvanzaSocket) handleHandshakeMessage(msg map[string]interface{}) error {
 	successful, _ := msg["successful"].(bool)
 	if successful {
-		s.clientID, _ = msg["clientId"].(string)
+		s.ClientID, _ = msg["clientId"].(string)
 		err := s.sendConnectMessage()
 		if err != nil {
 			return err
@@ -212,13 +224,13 @@ func (s *AvanzaSocket) handleHandshakeMessage(msg map[string]interface{}) error 
 		advice, _ := msg["advice"].(map[string]interface{})
 		reconnect, _ := advice["reconnect"].(string)
 		if reconnect == "handshake" {
-			err := s.sendHandshakeMessage(s.pushSubscriptionID)
+			err := s.sendHandshakeMessage(s.PushSubscriptionID)
 			if err != nil {
 				return err
 			}
 		}
+		return errors.New("handshake failed")
 	}
-
 	return nil
 }
 
@@ -234,14 +246,14 @@ func (s *AvanzaSocket) handleConnectMessage(msg map[string]interface{}) error {
 			return err
 		}
 
-		if !s.connected {
-			s.connected = true
+		if !s.Connected {
+			s.Connected = true
 			err := s.resubscribeExistingSubscriptions()
 			if err != nil {
 				return err
 			}
 		}
-	} else if s.clientID != "" {
+	} else if s.ClientID != "" {
 		err := s.sendConnectMessage()
 		if err != nil {
 			return err
@@ -252,18 +264,14 @@ func (s *AvanzaSocket) handleConnectMessage(msg map[string]interface{}) error {
 }
 
 func (s *AvanzaSocket) resubscribeExistingSubscriptions() error {
-	s.Lock()
-	defer s.Unlock()
-
-	for key, value := range s.subscriptions {
-		if value.ClientID != s.clientID {
+	for key, value := range s.Subscriptions {
+		if value.ClientID != s.ClientID {
 			err := s.socketSubscribe(key, value.Callback)
 			if err != nil {
 				return err
 			}
 		}
 	}
-
 	return nil
 }
 
@@ -276,24 +284,17 @@ func (s *AvanzaSocket) handleSubscribeMessage(msg map[string]interface{}) error 
 	s.Lock()
 	defer s.Unlock()
 
-	if _, ok := s.subscriptions[subscription]; ok {
-		s.subscriptions[subscription] = struct {
+	if _, ok := s.Subscriptions[subscription]; ok {
+		s.Subscriptions[subscription] = struct {
 			Callback func(string, map[string]interface{})
 			ClientID string
 		}{
-			Callback: s.subscriptions[subscription].Callback,
-			ClientID: s.clientID,
+			Callback: s.Subscriptions[subscription].Callback,
+			ClientID: s.ClientID,
 		}
 	}
 
 	return nil
-}
-
-// handleCustomMessage handles custom messages for a specific channel.
-func (s *AvanzaSocket) handleCustomMessage(channel string, msg map[string]interface{}) {
-	// You can implement custom handling logic based on the 'channel' and 'msg' here.
-	// For now, let's just print the received message.
-	log.Printf("Received custom message on channel %s: %v\n", channel, msg)
 }
 
 func contains(slice []string, str string) bool {
