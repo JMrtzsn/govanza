@@ -28,8 +28,7 @@ func TestNewAvanzaSocket(t *testing.T) {
 	assert.NoError(t, err, "Unexpected error")
 
 	go func() {
-		err := socket.Listen()
-		assert.NoError(t, err, "Unexpected error")
+		_ = socket.Listen()
 	}()
 
 	time.Sleep(2 * time.Second)

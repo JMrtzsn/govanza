@@ -124,7 +124,7 @@ func (s *AvanzaSocket) SubscribeToID(channel, id string, callback func(string, m
 
 // SubscribeToIDs subscribes to a channel with multiple IDs.
 func (s *AvanzaSocket) SubscribeToIDs(channel string, ids []string, callback func(string, map[string]interface{})) error {
-	if ids == nil || len(ids) == 0 {
+	if len(ids) == 0 {
 		return errors.New("no IDs provided")
 	}
 
