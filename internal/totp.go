@@ -16,13 +16,13 @@ func TOTP(secret interface{}, timeStep int64, numDigits int) string {
 	counter := time.Now().Unix() / timeStep
 
 	var secretBytes []byte
-	switch secret.(type) {
+	switch secret := secret.(type) {
 	case string:
 		secretBytes, _ = base32.StdEncoding.DecodeString(
-			strings.ToUpper(secret.(string)),
+			strings.ToUpper(secret),
 		)
 	case []byte:
-		secretBytes = secret.([]byte)
+		secretBytes = secret
 	}
 
 	counterBytes := make([]byte, 8)
