@@ -74,4 +74,4 @@ govulncheck: install-govulncheck
 	@echo "Running go vulncheck..."
 	govulncheck ./...
 
-all: tidy build fmt fix lint test sec govulncheck
+all: tidy fmt fix lint test sec govulncheck
